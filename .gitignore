@@ -25,3 +25,6 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
+packages/*
+!packages/repositories.config
+iphone-plist-net/.svn
