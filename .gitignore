@@ -28,3 +28,4 @@ _ReSharper*/
 packages/*
 !packages/repositories.config
 iphone-plist-net/.svn
+!.nuget/*
