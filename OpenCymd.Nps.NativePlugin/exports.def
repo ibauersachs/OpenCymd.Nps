@@ -1,0 +1,5 @@
+LIBRARY
+EXPORTS
+	RadiusExtensionInit
+	RadiusExtensionTerm
+	RadiusExtensionProcess2

@@ -29,3 +29,6 @@ packages/*
 !packages/repositories.config
 iphone-plist-net/.svn
 !.nuget/*
+/OpenCymd.Mdm.Web/App_Data/log.txt
+*.opensdf
+*.sdf
