@@ -159,7 +159,6 @@
   <ItemGroup>
     <None Include="app.ico" />
     <None Include="exports.def" />
-    <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

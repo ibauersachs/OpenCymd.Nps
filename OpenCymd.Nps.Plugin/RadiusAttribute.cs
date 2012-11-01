@@ -1,7 +1,6 @@
 namespace OpenCymd.Nps.Plugin
 {
     using System;
-    using System.ComponentModel;
     using System.Linq;
     using System.Net;
     using System.Runtime.InteropServices;
@@ -142,7 +141,7 @@ namespace OpenCymd.Nps.Plugin
             switch (this.radiusAttribute.fDataType)
             {
                 case RADIUS_DATA_TYPE.rdtAddress:
-                    // as of Win 2008, dwValue arrives in Network Byte Order, which exactly what the constructor expects
+                    // as of Win 2008, dwValue arrives in Network Byte Order, which is exactly what the constructor expects
                     result = new IPAddress(this.radiusAttribute.Value.dwValue);
                     break;
                 case RADIUS_DATA_TYPE.rdtIpv6Address:

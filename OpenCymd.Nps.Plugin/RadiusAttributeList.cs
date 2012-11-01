@@ -49,6 +49,11 @@
         {
             get
             {
+                if (index < 0 || index >= this.Count)
+                {
+                    return null;
+                }
+
                 return new RadiusAttribute(this.radiusAttributeArray.AttributeAt(this.radiusAttributeArrayPtr, (uint)index));
             }
 

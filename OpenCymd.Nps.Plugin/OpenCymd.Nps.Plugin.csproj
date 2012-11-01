@@ -32,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>649</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
@@ -67,7 +68,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenCymd.Mdm.Utils\OpenCymd.Utils.csproj">
+    <ProjectReference Include="..\OpenCymd.Utils\OpenCymd.Utils.csproj">
       <Project>{75C43451-BB61-4C41-8F49-71CDCB6F0669}</Project>
       <Name>OpenCymd.Utils</Name>
     </ProjectReference>
