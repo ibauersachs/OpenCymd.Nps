@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionControl.cs" />
+    <Compile Include="IExtensionControl.cs" />
     <Compile Include="Native\RADIUS_VSA_FORMAT.cs" />
     <Compile Include="RadiusAttributeList.cs" />
     <Compile Include="Native\Extensions.cs" />

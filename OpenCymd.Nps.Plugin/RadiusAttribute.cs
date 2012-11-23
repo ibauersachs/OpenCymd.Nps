@@ -15,7 +15,7 @@ namespace OpenCymd.Nps.Plugin
 
         private readonly IntPtr radiusAttributePtr;
 
-        private RADIUS_ATTRIBUTE radiusAttribute = null;
+        private RADIUS_ATTRIBUTE radiusAttribute;
 
         internal RadiusAttribute(IntPtr radiusAttributePtr)
         {
@@ -41,15 +41,15 @@ namespace OpenCymd.Nps.Plugin
             this.value = value;
         }
 
-        public uint AttributeId
+        public virtual uint AttributeId
         {
             get
             {
-                return this.radiusAttribute.dwAttrType;
+                return this.radiusAttribute == null ? this.attributeId : this.radiusAttribute.dwAttrType;
             }
         }
 
-        public object Value
+        public virtual object Value
         {
             get
             {

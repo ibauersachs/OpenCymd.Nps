@@ -7,16 +7,17 @@
 namespace OpenCymd.Nps.Plugin
 {
     using System;
+    using System.Collections.Generic;
     using System.Runtime.InteropServices;
 
-    using OpenCymd.Nps.Plugin.Native;
-
     using log4net;
+
+    using OpenCymd.Nps.Plugin.Native;
 
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
-    public class ExtensionControl
+    internal class ExtensionControl : IExtensionControl
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(ExtensionControl));
 
@@ -40,7 +41,7 @@ namespace OpenCymd.Nps.Plugin
             }
         }
 
-        public RADIUS_EXTENSION_POINT ExtensionPoint
+        public virtual RADIUS_EXTENSION_POINT ExtensionPoint
         {
             get
             {
@@ -48,7 +49,7 @@ namespace OpenCymd.Nps.Plugin
             }
         }
 
-        public RADIUS_CODE RequestType
+        public virtual RADIUS_CODE RequestType
         {
             get
             {
@@ -56,7 +57,7 @@ namespace OpenCymd.Nps.Plugin
             }
         }
 
-        public RADIUS_CODE ResponseType
+        public virtual RADIUS_CODE ResponseType
         {
             get
             {
@@ -64,7 +65,7 @@ namespace OpenCymd.Nps.Plugin
             }
         }
 
-        public RadiusAttributeList Request
+        public virtual IList<RadiusAttribute> Request
         {
             get
             {

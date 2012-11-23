@@ -13,6 +13,6 @@ namespace OpenCymd.Nps.Plugin
     {
         void Initialize();
 
-        void RadiusExtensionProcess(ExtensionControl control);
+        void RadiusExtensionProcess(IExtensionControl control);
     }
 }
