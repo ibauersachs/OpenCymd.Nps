@@ -32,3 +32,7 @@ iphone-plist-net/.svn
 /OpenCymd.Mdm.Web/App_Data/log.txt
 *.opensdf
 *.sdf
+x64*/
+ipch*/
+.DS*
+[Ddebug]*/
