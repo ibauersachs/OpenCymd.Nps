@@ -30,22 +30,38 @@ namespace OpenCymd.Nps.Plugin
         /// </param>
         /// <param name="value">
         /// </param>
-        public RadiusAttribute(uint attributeId, object value)
+        public RadiusAttribute(int attributeId, object value)
         {
             if (value == null)
             {
                 throw new ArgumentNullException("value");
             }
 
-            this.attributeId = attributeId;
+            if (attributeId < 0)
+            {
+                throw new ArgumentOutOfRangeException("attributeId", "must be positive");
+            }
+
+            this.attributeId = (uint)attributeId;
             this.value = value;
         }
 
-        public virtual uint AttributeId
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RadiusAttribute"/> class.
+        /// </summary>
+        /// <param name="attributeId">
+        /// </param>
+        /// <param name="value">
+        /// </param>
+        public RadiusAttribute(RADIUS_ATTRIBUTE_TYPE attributeId, object value) : this ((int)attributeId, value)
+        {
+        }
+
+        public virtual int AttributeId
         {
             get
             {
-                return this.radiusAttribute == null ? this.attributeId : this.radiusAttribute.dwAttrType;
+                return (int)(this.radiusAttribute == null ? this.attributeId : this.radiusAttribute.dwAttrType);
             }
         }
 

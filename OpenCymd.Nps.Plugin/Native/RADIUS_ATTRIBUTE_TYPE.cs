@@ -4,7 +4,7 @@ namespace OpenCymd.Nps.Plugin.Native
     /// The RADIUS_ATTRIBUTE_TYPE type enumerates the possible types for a RADIUS attribute.
     /// http://msdn.microsoft.com/en-us/library/windows/desktop/bb892011(v=vs.85).aspx
     /// </summary>
-    public enum RADIUS_ATTRIBUTE_TYPE : uint
+    public enum RADIUS_ATTRIBUTE_TYPE : int
     {
         ratMinimum                  = 0,
         ratUserName                 = 1,
