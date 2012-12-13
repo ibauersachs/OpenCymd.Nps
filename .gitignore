@@ -27,12 +27,10 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 packages/*
 !packages/repositories.config
-iphone-plist-net/.svn
 !.nuget/*
-/OpenCymd.Mdm.Web/App_Data/log.txt
 *.opensdf
 *.sdf
 x64*/
 ipch*/
 .DS*
-[Ddebug]*/
+*.userprefs
