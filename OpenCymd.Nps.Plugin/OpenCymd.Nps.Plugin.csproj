@@ -50,7 +50,6 @@
     <Compile Include="IExtensionControl.cs" />
     <Compile Include="Native\RADIUS_VSA_FORMAT.cs" />
     <Compile Include="RadiusAttributeList.cs" />
-    <Compile Include="Native\Extensions.cs" />
     <Compile Include="INpsPlugin.cs" />
     <Compile Include="Native\NpsPlugin.cs" />
     <Compile Include="Native\RADIUS_ATTRIBUTE.cs" />
