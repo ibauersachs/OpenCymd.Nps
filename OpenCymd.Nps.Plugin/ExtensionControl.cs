@@ -10,38 +10,28 @@ namespace OpenCymd.Nps.Plugin
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
 
-    using log4net;
-
     using OpenCymd.Nps.Plugin.Native;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
     internal class ExtensionControl : IExtensionControl
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(ExtensionControl));
-
         private readonly IntPtr ecbPtr;
 
         private readonly RADIUS_EXTENSION_CONTROL_BLOCK ecb;
 
         private RadiusAttributeList requestList;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExtensionControl"/> class.
+        /// </summary>
+        /// <param name="ecbPtr">Pointer to the RADIUS_EXTENSION_CONTROL_BLOCK.</param>
         internal ExtensionControl(IntPtr ecbPtr)
         {
             this.ecbPtr = ecbPtr;
             this.ecb = (RADIUS_EXTENSION_CONTROL_BLOCK)Marshal.PtrToStructure(this.ecbPtr, typeof(RADIUS_EXTENSION_CONTROL_BLOCK));
-            if (Logger.IsInfoEnabled)
-            {
-                Logger.InfoFormat(
-                    "Processing extension at {0} with request-type {1} and response-type {2}.",
-                    this.ecb.repPoint,
-                    this.ecb.rcRequestType,
-                    this.ecb.rcResponseType);
-            }
         }
 
-        public virtual RADIUS_EXTENSION_POINT ExtensionPoint
+        /// <inheritdoc/>
+        public virtual RadiusExtensionPoint ExtensionPoint
         {
             get
             {
@@ -49,7 +39,8 @@ namespace OpenCymd.Nps.Plugin
             }
         }
 
-        public virtual RADIUS_CODE RequestType
+        /// <inheritdoc/>
+        public virtual RadiusCode RequestType
         {
             get
             {
@@ -57,14 +48,24 @@ namespace OpenCymd.Nps.Plugin
             }
         }
 
-        public virtual RADIUS_CODE ResponseType
+        /// <inheritdoc/>
+        public virtual RadiusCode ResponseType
         {
             get
             {
                 return this.ecb.rcResponseType;
             }
+
+            set
+            {
+                if (this.ecb.SetResponseType(this.ecbPtr, value) != 0)
+                {
+                    throw new Exception("{0} is not valid for ResponseType");
+                }
+            }
         }
 
+        /// <inheritdoc/>
         public virtual IList<RadiusAttribute> Request
         {
             get

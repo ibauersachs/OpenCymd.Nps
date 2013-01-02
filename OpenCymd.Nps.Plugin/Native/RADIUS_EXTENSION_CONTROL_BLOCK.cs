@@ -55,7 +55,7 @@
     /// This function is provided by NPS. NPS returns a pointer to this function as a member
     ///  of the RADIUS_EXTENSION_CONTROL_BLOCK structure.
     /// </remarks>
-    internal delegate IntPtr GetResponse(IntPtr This, RADIUS_CODE rcResponseType);
+    internal delegate IntPtr GetResponse(IntPtr This, RadiusCode rcResponseType);
 
     /// <summary>
     /// The SetResponseType function sets the final disposition of the request.
@@ -86,7 +86,7 @@
     /// This function is provided by NPS. NPS returns a pointer to this function as a member of
     ///  the RADIUS_EXTENSION_CONTROL_BLOCK structure.
     /// </remarks>
-    internal delegate uint SetResponseType(IntPtr This, RADIUS_CODE rcResponseType);
+    internal delegate uint SetResponseType(IntPtr This, RadiusCode rcResponseType);
 
 
     /// <summary>
@@ -117,18 +117,18 @@
         /// Specifies a value of type RADIUS_EXTENSION_POINT that indicates at what
         /// point in the request process RadiusExtensionProcess2 was called.
         /// </summary>
-        public RADIUS_EXTENSION_POINT repPoint;
+        public RadiusExtensionPoint repPoint;
 
         /// <summary>
         /// Specifies a value of type RADIUS_CODE that specifies the type of RADIUS 
         /// request received by the Internet Authentication Service server.
         /// </summary>
-        public RADIUS_CODE rcRequestType;
+        public RadiusCode rcRequestType;
 
         /// <summary>
         /// Specifies a value of type RADIUS_CODE that indicates the disposition of the RADIUS request.
         /// </summary>
-        public RADIUS_CODE rcResponseType;
+        public RadiusCode rcResponseType;
 
         /// <summary>
         /// Pointer to the GetRequest function provided by NPS. NPS sets the value of this member.

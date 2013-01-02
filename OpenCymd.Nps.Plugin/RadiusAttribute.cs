@@ -53,7 +53,7 @@ namespace OpenCymd.Nps.Plugin
         /// </param>
         /// <param name="value">
         /// </param>
-        public RadiusAttribute(RADIUS_ATTRIBUTE_TYPE attributeId, object value) : this ((int)attributeId, value)
+        public RadiusAttribute(RadiusAttributeType attributeId, object value) : this ((int)attributeId, value)
         {
         }
 
@@ -149,7 +149,7 @@ namespace OpenCymd.Nps.Plugin
         private object GetAttributeValue()
         {
             object result = null;
-            if (this.radiusAttribute.dwAttrType == (uint)RADIUS_ATTRIBUTE_TYPE.ratVendorSpecific)
+            if (this.radiusAttribute.dwAttrType == (uint)RadiusAttributeType.VendorSpecific)
             {
                 return new VendorSpecificAttribute(this.radiusAttribute.Value.lpValue);
             }

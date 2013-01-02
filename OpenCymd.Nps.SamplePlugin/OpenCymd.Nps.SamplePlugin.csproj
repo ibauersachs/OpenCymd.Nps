@@ -1,20 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0F560446-80A1-42F0-98FD-5D5E47CF2A2A}</ProjectGuid>
+    <ProjectGuid>{083FD6EE-9781-43B0-89F8-D654C55C512C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenCymd.Nps.Plugin</RootNamespace>
-    <AssemblyName>OpenCymd.Nps.Plugin</AssemblyName>
+    <RootNamespace>OpenCymd.Nps.SamplePlugin</RootNamespace>
+    <AssemblyName>OpenCymd.Nps.SamplePlugin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,41 +30,30 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>649</NoWarn>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.0\lib\net20-full\log4net.dll</HintPath>
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtensionControl.cs" />
-    <Compile Include="IExtensionControl.cs" />
-    <Compile Include="Native\RADIUS_ACTION.cs" />
-    <Compile Include="Native\RADIUS_VSA_FORMAT.cs" />
-    <Compile Include="RadiusAttributeList.cs" />
-    <Compile Include="INpsPlugin.cs" />
-    <Compile Include="Native\NpsPlugin.cs" />
-    <Compile Include="Native\RADIUS_ATTRIBUTE.cs" />
-    <Compile Include="Native\RADIUS_ATTRIBUTE_ARRAY.cs" />
-    <Compile Include="Native\RADIUS_DATA_TYPE.cs" />
-    <Compile Include="Native\RADIUS_EXTENSION_CONTROL_BLOCK.cs" />
+    <Compile Include="SampleNpsPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RadiusAttribute.cs" />
-    <Compile Include="RadiusAttributeType.cs" />
-    <Compile Include="RadiusCode.cs" />
-    <Compile Include="RadiusExtensionPoint.cs" />
-    <Compile Include="VendorSpecificAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NpsPlugin.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\OpenCymd.Nps.Plugin\OpenCymd.Nps.Plugin.csproj">
+      <Project>{0F560446-80A1-42F0-98FD-5D5E47CF2A2A}</Project>
+      <Name>OpenCymd.Nps.Plugin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

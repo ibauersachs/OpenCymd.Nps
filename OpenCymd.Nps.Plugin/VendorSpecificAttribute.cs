@@ -7,17 +7,12 @@
 namespace OpenCymd.Nps.Plugin
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.InteropServices;
     using System.Text;
 
     using OpenCymd.Nps.Plugin.Native;
-    using OpenCymd.Utils;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
     public class VendorSpecificAttribute
     {
         private readonly IntPtr vsaPtr;
@@ -71,7 +66,11 @@ namespace OpenCymd.Nps.Plugin
             sb.Append(", Type=");
             sb.Append(this.VendorType);
             sb.Append(", Data=");
-            sb.Append(this.Data.ToHex());
+            foreach (var b in this.Data)
+            {
+                sb.AppendFormat("{0:X2}", b);
+            }
+
             return sb.ToString();
         }
     }
