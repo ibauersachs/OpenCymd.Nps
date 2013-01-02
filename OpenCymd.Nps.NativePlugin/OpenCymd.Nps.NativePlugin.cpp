@@ -7,6 +7,8 @@
 using namespace System;
 using namespace System::Runtime::InteropServices;
 
+#using "OpenCymd.Nps.Plugin.dll" as_friend
+
 DWORD WINAPI RadiusExtensionInit(void)
 {
     OutputDebugString(L"RadiusExtensionInit c++/clr\n");

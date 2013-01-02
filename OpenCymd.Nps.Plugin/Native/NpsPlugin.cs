@@ -11,7 +11,7 @@
     /// <summary>
     /// Provides the entry points for the NPS service (indirectly called by the C++/CLR wrapper).
     /// </summary>
-    public static class NpsPlugin
+    internal static class NpsPlugin
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(NpsPlugin));
 

@@ -102,7 +102,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalUsingDirectories>$(SolutionDir)\OpenCymd.Nps.Plugin\bin\Debug</AdditionalUsingDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)\OpenCymd.Nps.Plugin\bin\$(Configuration)\</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -130,7 +130,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalUsingDirectories>$(SolutionDir)\OpenCymd.Nps.Plugin\bin\Release</AdditionalUsingDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)\OpenCymd.Nps.Plugin\bin\$(Configuration)\</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -162,14 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OpenCymd.Nps.LocationRestrictionPlugin\OpenCymd.Nps.LocationRestrictionPlugin.csproj">
-      <Project>{e16170a2-cde1-45bc-a8b0-513fc1d996a5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenCymd.Nps.Plugin\OpenCymd.Nps.Plugin.csproj">
-      <Project>{0f560446-80a1-42f0-98fd-5d5e47cf2a2a}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
