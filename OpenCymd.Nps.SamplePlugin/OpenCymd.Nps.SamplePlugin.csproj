@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,6 +52,7 @@
     <ProjectReference Include="..\OpenCymd.Nps.Plugin\OpenCymd.Nps.Plugin.csproj">
       <Project>{0F560446-80A1-42F0-98FD-5D5E47CF2A2A}</Project>
       <Name>OpenCymd.Nps.Plugin</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
