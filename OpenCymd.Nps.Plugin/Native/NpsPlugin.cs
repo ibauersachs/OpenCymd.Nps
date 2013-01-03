@@ -13,6 +13,7 @@
     /// </summary>
     internal static class NpsPlugin
     {
+        private const string InstallationDirectory = @"C:\Program Files\OpenCymd\Nps";
         private static readonly ILog Logger = LogManager.GetLogger(typeof(NpsPlugin));
 
         private static readonly object SyncLock = new object();
@@ -29,7 +30,7 @@
         /// <returns>Always 0.</returns>
         public static uint RadiusExtensionInit()
         {
-            log4net.Config.XmlConfigurator.Configure(new FileInfo(@"C:\Program Files\OpenCymd\Nps\NpsPlugin.config"));
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(Path.Combine(InstallationDirectory, "NpsPlugin.config")));
             if (pluginDomain == null)
             {
                 Logger.Info("Initializing NPS plugin.");
@@ -42,7 +43,7 @@
 
             try
             {
-                watcher = new FileSystemWatcher(@"C:\Program Files\OpenCymd\Nps", "OpenCymd.Nps.*Plugin.dll");
+                watcher = new FileSystemWatcher(InstallationDirectory, "OpenCymd.Nps.*Plugin.dll");
                 watcher.Changed += PluginsChanged;
                 watcher.Renamed += PluginsChanged;
                 watcher.Created += PluginsChanged;
@@ -97,7 +98,7 @@
             {
                 pluginDomain = AppDomain.CreateDomain("PluginDomain");
                 pluginDomain.UnhandledException += (sender, e) => Logger.Error("Plugin app-domain crashed.", (Exception)e.ExceptionObject);
-                pluginDomain.DoCallBack(() => log4net.Config.XmlConfigurator.Configure(new FileInfo(@"C:\Program Files\OpenCymd\Nps\NpsPlugin.config")));
+                pluginDomain.DoCallBack(() => log4net.Config.XmlConfigurator.Configure(new FileInfo(Path.Combine(InstallationDirectory, "NpsPlugin.config"))));
                 pluginDomain.DoCallBack(LoadPlugins);
             }
         }
@@ -139,9 +140,9 @@
 
         private static void LoadPlugins()
         {
-            var tempFolder = Directory.CreateDirectory(Path.Combine(@"C:\Program Files\OpenCymd\Nps", Guid.NewGuid().ToString("N"))).FullName;
+            var tempFolder = Directory.CreateDirectory(Path.Combine(InstallationDirectory, Guid.NewGuid().ToString("N"))).FullName;
             AppDomain.CurrentDomain.SetData("tempFolder", tempFolder);
-            foreach (var f in Directory.GetFiles(@"C:\Program Files\OpenCymd\Nps", "*.dll"))
+            foreach (var f in Directory.GetFiles(InstallationDirectory, "*.dll"))
             {
                 File.Copy(f, Path.Combine(tempFolder, new FileInfo(f).Name));
             }
