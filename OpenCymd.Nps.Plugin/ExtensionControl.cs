@@ -20,6 +20,8 @@ namespace OpenCymd.Nps.Plugin
 
         private RadiusAttributeList requestList;
 
+        private IResponseDictionary responseDictionary;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtensionControl"/> class.
         /// </summary>
@@ -71,6 +73,41 @@ namespace OpenCymd.Nps.Plugin
             get
             {
                 return this.requestList ?? (this.requestList = new RadiusAttributeList(this.ecb.GetRequest(this.ecbPtr)));
+            }
+        }
+
+        /// <inheritdoc/>
+        public virtual IResponseDictionary Response
+        {
+            get
+            {
+                return this.responseDictionary ?? (this.responseDictionary = new ResponseDictionary(this));
+            }
+        }
+
+        private class ResponseDictionary : IResponseDictionary
+        {
+            private readonly ExtensionControl outer;
+
+            private readonly Dictionary<RadiusCode, IList<RadiusAttribute>> responseLists =
+                new Dictionary<RadiusCode, IList<RadiusAttribute>>(Enum.GetNames(typeof(RadiusCode)).Length);
+
+            public ResponseDictionary(ExtensionControl outer)
+            {
+                this.outer = outer;
+            }
+
+            public IList<RadiusAttribute> this[RadiusCode responseType]
+            {
+                get
+                {
+                    if (!this.responseLists.ContainsKey(responseType))
+                    {
+                        this.responseLists[responseType] = new RadiusAttributeList(this.outer.ecb.GetResponse(this.outer.ecbPtr, responseType));
+                    }
+
+                    return this.responseLists[responseType];
+                }
             }
         }
     }
