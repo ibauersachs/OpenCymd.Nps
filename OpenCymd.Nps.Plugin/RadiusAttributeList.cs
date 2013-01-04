@@ -10,7 +10,7 @@
     /// <summary>
     /// Managed wrapper to access RADIUS attributes.
     /// </summary>
-    public class RadiusAttributeList : IList<RadiusAttribute>
+    internal class RadiusAttributeList : IList<RadiusAttribute>
     {
         private readonly IntPtr radiusAttributeArrayPtr;
 
