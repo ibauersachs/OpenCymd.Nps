@@ -18,7 +18,8 @@
 
         private static readonly object SyncLock = new object();
 
-        private static FileSystemWatcher watcher;
+        private static FileSystemWatcher dllWatcher;
+        private static FileSystemWatcher configWatcher;
 
         private static AppDomain pluginDomain;
 
@@ -43,12 +44,18 @@
 
             try
             {
-                watcher = new FileSystemWatcher(InstallationDirectory, "OpenCymd.Nps.*Plugin.dll");
-                watcher.Changed += PluginsChanged;
-                watcher.Renamed += PluginsChanged;
-                watcher.Created += PluginsChanged;
-                watcher.Deleted += PluginsChanged;
-                watcher.EnableRaisingEvents = true;
+                dllWatcher = new FileSystemWatcher(InstallationDirectory, "OpenCymd.Nps.*Plugin.dll");
+                dllWatcher.Changed += PluginsChanged;
+                dllWatcher.Renamed += PluginsChanged;
+                dllWatcher.Created += PluginsChanged;
+                dllWatcher.Deleted += PluginsChanged;
+                dllWatcher.EnableRaisingEvents = true;
+                configWatcher = new FileSystemWatcher(InstallationDirectory, "*.config");
+                configWatcher.Changed += PluginsChanged;
+                configWatcher.Renamed += PluginsChanged;
+                configWatcher.Created += PluginsChanged;
+                configWatcher.Deleted += PluginsChanged;
+                configWatcher.EnableRaisingEvents = true;
 
                 LoadPluginsIntoAppDomain();
                 Logger.Info("NPS Plugin loaded.");
@@ -68,8 +75,10 @@
         {
             Logger.Info("Terminating NPS plugin...");
             UnloadPlugins();
-            watcher.EnableRaisingEvents = false;
-            watcher.Dispose();
+            dllWatcher.EnableRaisingEvents = false;
+            dllWatcher.Dispose();
+            configWatcher.EnableRaisingEvents = false;
+            configWatcher.Dispose();
             Logger.Info("done.");
         }
 
@@ -147,6 +156,11 @@
                 File.Copy(f, Path.Combine(tempFolder, new FileInfo(f).Name));
             }
 
+            foreach (var f in Directory.GetFiles(InstallationDirectory, "*.config"))
+            {
+                File.Copy(f, Path.Combine(tempFolder, new FileInfo(f).Name));
+            }
+
             plugins = (from pluginAssembly in Directory.GetFiles(tempFolder, "OpenCymd.Nps.*Plugin.dll")
                        select Assembly.LoadFrom(pluginAssembly) into assembly
                        from type in assembly.GetTypes().Where(t => typeof(INpsPlugin).IsAssignableFrom(t) && t != typeof(INpsPlugin))
@@ -176,7 +190,6 @@
 
             public void CallPlugins()
             {
-                Logger.Debug("Processing RADIUS message");
                 var ec = new ExtensionControl(this.EcbPointer);
 // ReSharper disable RedundantNameQualifier -> this is indeed necessary!
                 foreach (var plugin in NpsPlugin.plugins)
@@ -185,7 +198,9 @@
                     try
                     {
                         Logger.DebugFormat("Calling plugin {0} with pointer {1}", plugin.GetType().FullName, this.EcbPointer);
+                        var before = ec.ResponseType;
                         plugin.RadiusExtensionProcess(ec);
+                        Logger.InfoFormat("Called plugin {0}, response was {1} and is now {2}.", plugin.GetType().FullName, before, ec.ResponseType);
                     }
                     catch (Exception ex)
                     {
