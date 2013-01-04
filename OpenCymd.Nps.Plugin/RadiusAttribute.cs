@@ -79,7 +79,6 @@ namespace OpenCymd.Nps.Plugin
             {
                 this.radiusAttribute = new RADIUS_ATTRIBUTE { dwAttrType = this.attributeId };
                 this.SetAttributeValue();
-                Marshal.StructureToPtr(this, this.radiusAttributePtr, false);
             }
 
             return this.radiusAttribute;
