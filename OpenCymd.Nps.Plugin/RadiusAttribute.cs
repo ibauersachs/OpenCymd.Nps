@@ -119,7 +119,14 @@ namespace OpenCymd.Nps.Plugin
                 return;
             }
 
-            if (this.value is uint || this.value is int)
+            if (this.value is int)
+            {
+                this.radiusAttribute.fDataType = RADIUS_DATA_TYPE.rdtInteger;
+                this.radiusAttribute.Value.dwValue = (uint)(int)this.value;
+                return;
+            }
+
+            if (this.value is uint)
             {
                 this.radiusAttribute.fDataType = RADIUS_DATA_TYPE.rdtInteger;
                 this.radiusAttribute.Value.dwValue = (uint)this.value;
