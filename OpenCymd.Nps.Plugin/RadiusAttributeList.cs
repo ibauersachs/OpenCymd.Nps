@@ -79,6 +79,8 @@
                         throw new UnauthorizedAccessException("The specified attribute is read-only.");
                     case 87:
                         throw new ArgumentException("The index is out of range.");
+                    default:
+                        throw new Exception("Unable to set attribute, error code=" + result);
                 }
             }
         }
@@ -222,7 +224,7 @@
                 case 87:
                     throw new ArgumentException("The index is out of range.");
                 default:
-                    throw new Exception("Unable to add attribute, error code=" + result);
+                    throw new Exception("Unable to insert attribute, error code=" + result);
             }
         }
 
@@ -243,6 +245,8 @@
                     throw new UnauthorizedAccessException("The specified attribute is read-only.");
                 case 87:
                     throw new ArgumentException("The index is out of range.");
+                default:
+                    throw new Exception("Unable to remove attribute, error code=" + result);
             }
         }
     }
