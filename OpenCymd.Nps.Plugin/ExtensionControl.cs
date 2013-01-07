@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ExtensionControl.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace OpenCymd.Nps.Plugin
+﻿namespace OpenCymd.Nps.Plugin
 {
     using System;
     using System.Collections.Generic;
@@ -12,6 +6,9 @@ namespace OpenCymd.Nps.Plugin
 
     using OpenCymd.Nps.Plugin.Native;
 
+    /// <summary>
+    /// Managed implementation of <see cref="RADIUS_EXTENSION_CONTROL_BLOCK"/>.
+    /// </summary>
     internal class ExtensionControl : IExtensionControl
     {
         private readonly IntPtr ecbPtr;

@@ -7,6 +7,9 @@ namespace OpenCymd.Nps.Plugin
 
     using OpenCymd.Nps.Plugin.Native;
 
+    /// <summary>
+    /// Attribute in a RADIUS message.
+    /// </summary>
     public class RadiusAttribute
     {
         private readonly uint attributeId;
@@ -17,19 +20,21 @@ namespace OpenCymd.Nps.Plugin
 
         private RADIUS_ATTRIBUTE radiusAttribute;
 
-        internal RadiusAttribute(IntPtr radiusAttributePtr)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RadiusAttribute"/> class.
+        /// </summary>
+        /// <param name="attribute">ID of the attribute according to RFC2865.</param>
+        /// <param name="value">The value of the attribute.</param>
+        public RadiusAttribute(RadiusAttributeType attribute, object value)
+            : this((int)attribute, value)
         {
-            this.radiusAttributePtr = radiusAttributePtr;
-            this.radiusAttribute = (RADIUS_ATTRIBUTE)Marshal.PtrToStructure(this.radiusAttributePtr, typeof(RADIUS_ATTRIBUTE));
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RadiusAttribute"/> class.
         /// </summary>
-        /// <param name="attributeId">
-        /// </param>
-        /// <param name="value">
-        /// </param>
+        /// <param name="attributeId">ID of the attribute according to RFC2865.</param>
+        /// <param name="value">The value of the attribute.</param>
         public RadiusAttribute(int attributeId, object value)
         {
             if (value == null)
@@ -49,14 +54,16 @@ namespace OpenCymd.Nps.Plugin
         /// <summary>
         /// Initializes a new instance of the <see cref="RadiusAttribute"/> class.
         /// </summary>
-        /// <param name="attributeId">
-        /// </param>
-        /// <param name="value">
-        /// </param>
-        public RadiusAttribute(RadiusAttributeType attributeId, object value) : this ((int)attributeId, value)
+        /// <param name="radiusAttributePtr">Pointer to the native attribute.</param>
+        internal RadiusAttribute(IntPtr radiusAttributePtr)
         {
+            this.radiusAttributePtr = radiusAttributePtr;
+            this.radiusAttribute = (RADIUS_ATTRIBUTE)Marshal.PtrToStructure(this.radiusAttributePtr, typeof(RADIUS_ATTRIBUTE));
         }
 
+        /// <summary>
+        /// Gets the ID of the attribute according to RFC2865.
+        /// </summary>
         public virtual int AttributeId
         {
             get
@@ -65,6 +72,9 @@ namespace OpenCymd.Nps.Plugin
             }
         }
 
+        /// <summary>
+        /// Gets the value of the attribute.
+        /// </summary>
         public virtual object Value
         {
             get
@@ -73,6 +83,10 @@ namespace OpenCymd.Nps.Plugin
             }
         }
 
+        /// <summary>
+        /// Gets the native representation of this attribute.
+        /// </summary>
+        /// <returns>The native representation of this attribute.</returns>
         internal RADIUS_ATTRIBUTE GetNativeAttribute()
         {
             if (this.radiusAttribute == null)
