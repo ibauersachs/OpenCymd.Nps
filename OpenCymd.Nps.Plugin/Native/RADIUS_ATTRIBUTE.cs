@@ -53,6 +53,6 @@ namespace OpenCymd.Nps.Plugin.Native
         ///  specifies rdtUnknown, rdtIpv6Address, or rdtString.
         /// </summary>
         [FieldOffset(0)]
-        public IntPtr lpValue; //BYTE*
+        public IntPtr lpValue; // BYTE*
     }
 }

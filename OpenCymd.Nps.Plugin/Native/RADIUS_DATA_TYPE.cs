@@ -13,6 +13,7 @@ namespace OpenCymd.Nps.Plugin.Native
         /// <summary>
         /// The value of the attribute is a pointer to a character string.
         /// </summary>
+        /// <remarks>Character string means just char*, but not actually a human readable string.</remarks>
         rdtString,
 
         /// <summary>
@@ -33,6 +34,6 @@ namespace OpenCymd.Nps.Plugin.Native
         /// <summary>
         /// The value of the attribute is a BYTE* value that represents an IPv6 address.
         /// </summary>
-        rdtIpv6Address 
+        rdtIpv6Address
     }
 }
