@@ -71,6 +71,7 @@
                 }
 
                 var result = this.radiusAttributeArray.SetAt(this.radiusAttributeArrayPtr, (uint)index, value.GetNativeAttribute());
+                value.FreeNativeAttribute();
                 switch (result)
                 {
                     case 0:
@@ -109,6 +110,7 @@
             }
 
             var result = this.radiusAttributeArray.Add(this.radiusAttributeArrayPtr, item.GetNativeAttribute());
+            item.FreeNativeAttribute();
             switch (result)
             {
                 case 0:
@@ -212,6 +214,7 @@
             }
 
             var result = this.radiusAttributeArray.InsertAt(this.radiusAttributeArrayPtr, (uint)index, item.GetNativeAttribute());
+            item.FreeNativeAttribute();
             switch (result)
             {
                 case 0:

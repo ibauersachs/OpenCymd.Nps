@@ -3,7 +3,9 @@ namespace OpenCymd.Nps.Plugin
     using System;
     using System.Linq;
     using System.Net;
+    using System.Net.Sockets;
     using System.Runtime.InteropServices;
+    using System.Text;
 
     using OpenCymd.Nps.Plugin.Native;
 
@@ -84,7 +86,7 @@ namespace OpenCymd.Nps.Plugin
         }
 
         /// <summary>
-        /// Gets the native representation of this attribute.
+        /// Gets the native representation of this attribute. The caller is responsible to free the memory allocated in this method with a call to <see cref="FreeNativeAttribute"/>.
         /// </summary>
         /// <returns>The native representation of this attribute.</returns>
         internal RADIUS_ATTRIBUTE GetNativeAttribute()
@@ -98,6 +100,33 @@ namespace OpenCymd.Nps.Plugin
             return this.radiusAttribute;
         }
 
+        /// <summary>
+        /// Releases the memory allocated during a call to <see cref="GetNativeAttribute"/>
+        /// </summary>
+        internal void FreeNativeAttribute()
+        {
+            if (this.radiusAttribute == null)
+            {
+                return;
+            }
+
+            var ip = this.value as IPAddress;
+            if (ip != null && ip.AddressFamily == AddressFamily.InterNetworkV6)
+            {
+                Marshal.FreeHGlobal(this.radiusAttribute.Value.lpValue);
+                this.radiusAttribute = null;
+                return;
+            }
+
+            if (this.value is string ||
+                this.value is byte[] ||
+                this.value is VendorSpecificAttribute)
+            {
+                Marshal.FreeHGlobal(this.radiusAttribute.Value.lpValue);
+                this.radiusAttribute = null;
+            }
+        }
+
         private void SetAttributeValue()
         {
             var ip = this.value as IPAddress;
@@ -105,11 +134,11 @@ namespace OpenCymd.Nps.Plugin
             {
                 switch (ip.AddressFamily)
                 {
-                    case System.Net.Sockets.AddressFamily.InterNetwork:
+                    case AddressFamily.InterNetwork:
                         this.radiusAttribute.fDataType = RADIUS_DATA_TYPE.rdtAddress;
                         this.radiusAttribute.dwAttrType = BitConverter.ToUInt32(ip.GetAddressBytes().Reverse().ToArray(), 0);
                         break;
-                    case System.Net.Sockets.AddressFamily.InterNetworkV6:
+                    case AddressFamily.InterNetworkV6:
                         this.radiusAttribute.fDataType = RADIUS_DATA_TYPE.rdtIpv6Address;
                         this.radiusAttribute.Value.lpValue = Marshal.AllocHGlobal(ip.GetAddressBytes().Length);
                         this.radiusAttribute.cbDataLength = (uint)ip.GetAddressBytes().Length;
@@ -127,8 +156,12 @@ namespace OpenCymd.Nps.Plugin
             if (s != null)
             {
                 this.radiusAttribute.fDataType = RADIUS_DATA_TYPE.rdtString;
-                this.radiusAttribute.Value.lpValue = Marshal.StringToHGlobalAnsi(s);
-                this.radiusAttribute.cbDataLength = (uint)s.Length;
+
+                // Marshal.StringToHGlobal* are inappropriate as they are not UTF8 and include a terminating null char
+                var utf8 = Encoding.UTF8.GetBytes(s);
+                this.radiusAttribute.Value.lpValue = Marshal.AllocHGlobal(utf8.Length);
+                Marshal.Copy(utf8, 0, this.radiusAttribute.Value.lpValue, utf8.Length);
+                this.radiusAttribute.cbDataLength = (uint)utf8.Length;
                 return;
             }
 
@@ -157,10 +190,22 @@ namespace OpenCymd.Nps.Plugin
             var bytes = this.value as byte[];
             if (bytes != null)
             {
-                this.radiusAttribute.fDataType = RADIUS_DATA_TYPE.rdtUnknown;
+                this.radiusAttribute.fDataType = RADIUS_DATA_TYPE.rdtString;
                 this.radiusAttribute.Value.lpValue = Marshal.AllocHGlobal(bytes.Length);
                 this.radiusAttribute.cbDataLength = (uint)bytes.Length;
                 Marshal.Copy(bytes, 0, this.radiusAttribute.Value.lpValue, bytes.Length);
+                return;
+            }
+
+            var vsa = this.value as VendorSpecificAttribute;
+            if (vsa != null)
+            {
+                this.radiusAttribute.fDataType = RADIUS_DATA_TYPE.rdtString;
+                byte[] vsaData = vsa;
+                this.radiusAttribute.Value.lpValue = Marshal.AllocHGlobal(vsaData.Length);
+                this.radiusAttribute.cbDataLength = (uint)vsaData.Length;
+                Marshal.Copy(vsaData, 0, this.radiusAttribute.Value.lpValue, vsaData.Length);
+                return;
             }
 
             throw new ArgumentException(string.Format("Type {0} is not supported.", this.value.GetType().FullName));
@@ -195,9 +240,8 @@ namespace OpenCymd.Nps.Plugin
                     result = new DateTime(this.radiusAttribute.Value.dwValue);
                     break;
                 case RADIUS_DATA_TYPE.rdtString:
-                    result = Marshal.PtrToStringAnsi(this.radiusAttribute.Value.lpValue, (int)this.radiusAttribute.cbDataLength);
-                    break;
                 case RADIUS_DATA_TYPE.rdtUnknown:
+                    // string means actually byte[], any real string would be 'text', but that is attribute-type specific
                     {
                         var data = new byte[this.radiusAttribute.cbDataLength];
                         Marshal.Copy(this.radiusAttribute.Value.lpValue, data, 0, (int)this.radiusAttribute.cbDataLength);
