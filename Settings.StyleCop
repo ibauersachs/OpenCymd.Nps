@@ -1,0 +1,37 @@
+<StyleCopSettings Version="105">
+  <GlobalSettings>
+    <CollectionProperty Name="RecognizedWords">
+      <Value>api</Value>
+      <Value>Apns</Value>
+      <Value>checkin</Value>
+      <Value>Cymd</Value>
+      <Value>geocoder</Value>
+      <Value>geomapped</Value>
+      <Value>ios</Value>
+      <Value>Ios</Value>
+      <Value>ipa</Value>
+      <Value>Maklerhelper</Value>
+      <Value>Mdm</Value>
+      <Value>OpenCymd</Value>
+      <Value>OpenCYMD</Value>
+      <Value>th</Value>
+      <Value>timestamped</Value>
+    </CollectionProperty>
+  </GlobalSettings>
+  <Analyzers>
+    <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
+      <AnalyzerSettings>
+        <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
+        <StringProperty Name="CompanyName">OpenCYMD.org</StringProperty>
+        <StringProperty Name="Copyright">2012</StringProperty>
+      </AnalyzerSettings>
+    </Analyzer>
+    <Analyzer AnalyzerId="StyleCop.CSharp.NamingRules">
+      <AnalyzerSettings>
+        <CollectionProperty Name="Hungarian">
+          <Value>ts</Value>
+        </CollectionProperty>
+      </AnalyzerSettings>
+    </Analyzer>
+  </Analyzers>
+</StyleCopSettings>
