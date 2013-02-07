@@ -1,4 +1,20 @@
-﻿namespace OpenCymd.Nps.Plugin.Native
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright>
+//   Copyright (C) 2012-2013 University of Applied Sciences Northwestern Switzerland
+//   
+//   This library is free software; you can redistribute it and/or
+//   modify it under the terms of the GNU Lesser General Public
+//   License as published by the Free Software Foundation; either
+//   version 2.1 of the License, or (at your option) any later version.
+//   
+//   This library is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//   Lesser General Public License for more details.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace OpenCymd.Nps.Plugin.Native
 {
     using System;
     using System.Collections.Generic;
@@ -85,15 +101,15 @@
         /// <summary>
         /// Called by the NPS host to process an authentication or authorization request.
         /// </summary>
-        /// <param name="pEcb">Pointer to the extension control block.</param>
+        /// <param name="ecbPointer">Pointer to the extension control block.</param>
         /// <returns>0 if all plugins were processed successfully or 5 (access denied) when at least one of the plugins failed.</returns>
-        public static uint RadiusExtensionProcess2(IntPtr pEcb)
+        public static uint RadiusExtensionProcess2(IntPtr ecbPointer)
         {
             bool hadError;
             lock (SyncLock)
             {
                 var pr = (PluginRunner)pluginDomain.CreateInstanceAndUnwrap(Assembly.GetExecutingAssembly().FullName, typeof(PluginRunner).FullName);
-                pr.EcbPointer = pEcb;
+                pr.EcbPointer = ecbPointer;
                 pr.CallPlugins();
                 hadError = pr.HadError;
             }
