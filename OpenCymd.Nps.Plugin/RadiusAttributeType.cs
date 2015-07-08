@@ -24,7 +24,7 @@ namespace OpenCymd.Nps.Plugin
     /// </summary>
     public enum RadiusAttributeType
     {
-// ReSharper disable InconsistentNaming -> mappring to names of RADIUS_ATTRIBUTE_TYPE C enum or to IANA without hyphens
+// ReSharper disable InconsistentNaming -> mapping to names of RADIUS_ATTRIBUTE_TYPE C enum or to IANA without hyphens
         UserName = 1,
         UserPassword                   = 2,
         CHAPPassword                   = 3,
