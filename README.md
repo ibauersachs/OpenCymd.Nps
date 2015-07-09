@@ -22,6 +22,10 @@ need to be created or complemented:
 Both values need to contain the value `OpenCymd.Nps.NativePlugin.dll`.
 They cannot contain a path to avoid the installation in the system directory.
 
+`OpenCymd.Nps.Plugin` is dependent on log4net. Either copy log4net.dll to
+`C:\Windows\system32` as well or install it into the GAC. If it is installed
+into the system32-directory, it cannot be located next to the actual plugins.
+
 The actual plug-ins need to be installed into the directory
 `C:\Program Files\OpenCymd\Nps` (currently hardcoded). This directory MAY NOT
 contain the two base libraries, as this would cause conflicts with libraries
